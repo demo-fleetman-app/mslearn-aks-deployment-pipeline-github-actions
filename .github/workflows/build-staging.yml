@@ -16,14 +16,14 @@ jobs:
 
       - name: Docker Login
         uses: docker/login-action@v1
-        with:
-          registry: fleetmanregistry10212.azurecr.io
-          username: fleetmanregistry10212
-          password: /mqUnGk7YdaSETkHOs1Bo7t6iXVjHOjm
+        with:      
+          registry: ${{ secrets.ACR_NAME }}
+          username: ${{ secrets.ACR_LOGIN }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Build and push staging images
         uses: docker/build-push-action@v2
         with:
           context: .
-          tags: fleetmanregistry10212.azurecr.io/contoso-website:latest
+          tags: ${{ secrets.ACR_NAME }}/contoso-website:latest
           push: true
