@@ -25,5 +25,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          tags: ${{secrets.ACR_NAME}}/contoso-website:latest
+          tags: fleetmanregistry10212.azurecr.io/contoso-website:latest
           push: true
