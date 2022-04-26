@@ -40,10 +40,8 @@ jobs:
           echo "Deployement to DEV env is Approved"
           
   deployDEV:
-    runs-on: ubuntu-20.04
-    environment: 'stage'
-    needs: approvalDev  
-   
+    runs-on: ubuntu-20.04    
+    needs: [build_push_image, approvalDev] 
 
     steps:
       - uses: actions/checkout@v2
