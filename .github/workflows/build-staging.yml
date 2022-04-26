@@ -24,7 +24,7 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
           registry: ${{ secrets.ACR_NAME }}
           repository: contoso-website
-          tags: ${{ IMAGE_TAG }
+          tags: ${{ IMAGE_TAG }}
           
   deploy:
     runs-on: ubuntu-20.04
