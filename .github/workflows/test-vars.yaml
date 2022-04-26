@@ -23,7 +23,8 @@ jobs:
       - name: updating yaml
         run: |
             ls -R kubernetes
-            sed -i 's|<IMAGE>|docker_fake_repo/tutorial-api:'${TAG}'|' kubernetes/deployment.yml
+            cat kubernetes/deployment.yml | grep IMAGE
+            sed -i 's|<IMAGE>|'${{ github.run_id }}'|' kubernetes/deployment.yml
             sed -i 's|<IMAGE>|ABCD|' kubernetes/deployment.yml
             cat kubernetes/deployment.yml
         
