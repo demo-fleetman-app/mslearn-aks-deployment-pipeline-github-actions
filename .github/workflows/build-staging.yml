@@ -43,7 +43,7 @@ jobs:
          
       - name: application deployment Commands 
         run: |
-          kubectl create ns stage
+          kubectl get namespace | grep -q "^stage " || kubectl create namespace stage
           kubectl get ns
           echo "deploying to aks"
           cd ./kubernetes/
