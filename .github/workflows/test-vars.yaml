@@ -2,7 +2,7 @@ name: Testing out vars
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
 
 jobs:
   build_push_image:
