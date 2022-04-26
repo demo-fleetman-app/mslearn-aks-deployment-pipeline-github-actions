@@ -10,4 +10,4 @@ spec:
       name: http
   selector:
     app: contoso-website
-  type: ClusterIP
+  type: LoadBalancer
