@@ -2,7 +2,7 @@ name: Build and push multiple env by tags
 
 on:
   push:
-    branches: [ main ]
+    branches: [ Main ]
 
 jobs:
   build_push_image:
