@@ -5,6 +5,12 @@ on:
     branches: [ main ]
 
 jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    needs: build_push_image
+
+    steps:
+      - uses: actions/checkout@v2
   build_push_image:
     runs-on: ubuntu-20.04
 
@@ -12,7 +18,27 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set up Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v1        
+      - uses: actions/checkout@v2
+      - name: Get AKS Credentials
+        uses: Azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME}}
+          
+      - name: Kubectl tool installer
+        uses: Azure/setup-kubectl@v2.1
+        with:
+         version: v1.22.2 # default is latest
+         
+      - name: application deployment Commands 
+        run: |
+           # kubectl create ns stage
+           # kubectl get ns
+            echo "deploying to aks"
+            cd ./kubernetes/
+            kubectl apply -f . 
 
       - name: Docker Login
         uses: docker/login-action@v1
