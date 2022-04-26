@@ -49,7 +49,14 @@ jobs:
         uses: Azure/setup-kubectl@v2.1
         with:
          version: v1.22.2 # default is latest
-         
+      
+      - name: Get AKS Credentials
+        uses: Azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}   
+          
       - name: Update deployment file
         run: |
           cd kubernetes
