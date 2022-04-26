@@ -64,6 +64,7 @@ jobs:
           kubectl get ns
           echo "deploying to aks"
           cd ./kubernetes/
+          kubectl delete configmap staticfile -n stage
           kubectl create configmap staticfile  --from-file index.html -n stage
           kubectl apply -f . -n stage
 
@@ -98,5 +99,6 @@ jobs:
           kubectl get ns
           echo "deploying to aks"
           cd ./kubernetes/
+          kubectl delete configmap staticfile -n qa
           kubectl create configmap staticfile  --from-file index.html -n qa
           kubectl apply -f . -n qa
