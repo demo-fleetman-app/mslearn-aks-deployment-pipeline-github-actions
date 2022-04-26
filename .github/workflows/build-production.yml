@@ -32,3 +32,32 @@ jobs:
           context: .
           tags: ${{secrets.ACR_NAME}}/contoso-website:latest,${{secrets.ACR_NAME}}/contoso-website:${{ steps.fetch_version.outputs.TAG }}
           push: true
+
+  deploy:
+    runs-on: ubuntu-20.04
+    needs: build_push_image
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get AKS Credentials
+        uses: Azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          # Resource Group Name
+          resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
+          # AKS Cluster Name
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+
+      - name: Kubectl tool installer
+        uses: Azure/setup-kubectl@v2.1
+        with:
+         version: v1.22.2 # default is latest
+         
+      - name: application deployment Commands 
+        run: |          
+          kubectl get namespace | grep -q "^prod " || kubectl create namespace prod
+          kubectl get ns prod
+          echo "deploying to aks"
+          cd ./kubernetes/
+          kubectl apply -f . -n prod
