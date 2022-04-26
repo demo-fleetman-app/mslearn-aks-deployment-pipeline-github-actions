@@ -47,4 +47,4 @@ jobs:
           kubectl get ns
           echo "deploying to aks"
           cd ./kubernetes/
-          kubectl apply -f . -n stage 
+          kubectl apply -f .  

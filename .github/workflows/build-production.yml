@@ -60,4 +60,4 @@ jobs:
           kubectl get ns prod
           echo "deploying to aks"
           cd ./kubernetes/
-          kubectl apply -f . -n prod
+          kubectl apply -f .
