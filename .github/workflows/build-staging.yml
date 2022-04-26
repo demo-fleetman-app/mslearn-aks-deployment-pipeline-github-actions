@@ -5,28 +5,37 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-20.04
-    needs: build_push_image
-
-    steps:
-      - uses: actions/checkout@v2
   build_push_image:
     runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Buildx
-        uses: docker/setup-buildx-action@v1        
+      - name: Build and push staging image
+        uses: docker/build-push-action@v1.1.1
+        with:
+          username: ${{ secrets.ACR_LOGIN }}
+          password: ${{ secrets.ACR_PASSWORD }}
+          registry: ${{ secrets.ACR_NAME }}
+          repository: contoso-website
+          tags: latest
+
+  deploy:
+    runs-on: ubuntu-20.04
+    needs: build_push_image
+
+    steps:
       - uses: actions/checkout@v2
+
       - name: Get AKS Credentials
         uses: Azure/aks-set-context@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          # Resource Group Name
           resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
-          cluster-name: ${{ secrets.AKS_CLUSTER_NAME}}
-          
+          # AKS Cluster Name
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+
       - name: Kubectl tool installer
         uses: Azure/setup-kubectl@v2.1
         with:
@@ -34,22 +43,8 @@ jobs:
          
       - name: application deployment Commands 
         run: |
-           # kubectl create ns stage
-           # kubectl get ns
-            echo "deploying to aks"
-            cd ./kubernetes/
-            kubectl apply -f . 
-
-      - name: Docker Login
-        uses: docker/login-action@v1
-        with:      
-          registry: ${{ secrets.ACR_NAME }}
-          username: ${{ secrets.ACR_LOGIN }}
-          password: ${{ secrets.ACR_PASSWORD }}
-
-      - name: Build and push staging images
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          tags: ${{ secrets.ACR_NAME }}/contoso-website:latest
-          push: true
+          kubectl create ns stage
+          kubectl get ns
+          echo "deploying to aks"
+          cd ./kubernetes/
+          kubectl apply -f . 
