@@ -32,6 +32,7 @@ jobs:
           
   deployDEV:
     runs-on: ubuntu-20.04
+    environment: 'stage'
     needs: build_push_image
 
     steps:
@@ -70,6 +71,7 @@ jobs:
 
   deployQA:
     runs-on: ubuntu-20.04
+    environment: 'qa'
     needs: deployDEV
 
     steps:
