@@ -48,7 +48,7 @@ jobs:
          version: v1.22.2 # default is latest
          
       - name: Update deployment file
-        run: TAG=$(echo ${{ github.run_id }}) && sed -i 's|<IMAGE>|'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/deployment.yml
+        run: sed -i 's/<IMAGE>/'${github.run_id}'/g' kubernetes/deployment.yaml
         
       - name: application deployment Commands 
         run: |
