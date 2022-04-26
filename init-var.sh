@@ -1,0 +1,7 @@
+export RESOURCE_GROUP_NAME=demo-aks-4948
+export ACR_NAME=fleetmanregistry10212
+export ACR_LOGIN_USERNAME=fleetmanregistry10212
+export ACR_PASSWORD=/mqUnGk7YdaSETkHOs1Bo7t6iXVjHOjm
+export AKS_CLUSTER_NAME=fleetmanCluster
+export AKS_DNS_ZONE_NAME=0f77240063134582a5f8.eastus2.aksapp.io
+
