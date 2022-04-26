@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-#       - name: Generate Tag #using SHA of the commit that triggered workflow
+#       - name: Generate Tag values #using SHA of the commit that triggered workflow
 #         run: IMAGE_TAG=$((echo $GITHUB_SHA | head -c7))    
        
       - name: github runner options
