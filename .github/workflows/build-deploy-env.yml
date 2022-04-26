@@ -85,8 +85,11 @@ jobs:
         with:
          version: v1.22.2 # default is latest
          
-      - name: Update deployment file
+      - name: Update deployment file     
         run: |
+          app-name: ${{ env.ENV }}
+          echo ${{ app-name }}
+          echo ${{ env.ENV }}
           cd kubernetes
           sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
           sed -i 's|ENV|environment qa|' index.html
