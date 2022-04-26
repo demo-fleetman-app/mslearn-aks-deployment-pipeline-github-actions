@@ -2,7 +2,7 @@ name: Build and push multiple env by tags
 
 on:
   push:
-    branches: [ Main ]
+    branches: [ main ]
 
 jobs:
   build_push_image:
@@ -55,6 +55,7 @@ jobs:
         run: |
           cd kubernetes
           sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
+          sed -i 's|ENV|'environment stage'|' configmap.yaml
         
       - name: application deployment Commands 
         run: |
@@ -87,6 +88,7 @@ jobs:
         run: |
           cd kubernetes
           sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
+          sed -i 's|ENV|'environment qa'|' configmap.yaml
         
       - name: application deployment Commands 
         run: |
