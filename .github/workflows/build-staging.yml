@@ -10,6 +10,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Generate Tag #using SHA of the commit that triggered workflow
+        run: echo $GITHUB_SHA
 
       - name: Build and push staging image
         uses: docker/build-push-action@v1.1.1
@@ -18,8 +21,8 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
           registry: ${{ secrets.ACR_NAME }}
           repository: contoso-website
-          tags: latest
-
+          tags: $(echo $GITHUB_SHA | head -c7)
+          
   deploy:
     runs-on: ubuntu-20.04
     needs: build_push_image
@@ -40,7 +43,9 @@ jobs:
         uses: Azure/setup-kubectl@v2.1
         with:
          version: v1.22.2 # default is latest
-         
+      - name: Update deployment file
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/deployment.yml
+        
       - name: application deployment Commands 
         run: |
           kubectl get namespace | grep -q "^stage " || kubectl create namespace stage
