@@ -1,4 +1,4 @@
-name: Build and push the latest build to staging
+name: Testing out vars
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
         run: echo ${{ github.run_id }}
         
       - name: github runner options
-        run: echo ${{ github.run_id }} && $GITHUB_WORKSPACE && $GITHUB_ACTION_REPOSITORY
+        run: echo ${{ github.run_id }} && echo $GITHUB_WORKSPACE && echo $GITHUB_ACTION_REPOSITORY
         
       - name: Check Git Variable
         run: pwd && ls -R $GITHUB_WORKSPACE && ls -R $GITHUB_ACTION_REPOSITORY
