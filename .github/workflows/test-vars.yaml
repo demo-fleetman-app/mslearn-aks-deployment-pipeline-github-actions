@@ -1,0 +1,22 @@
+name: Build and push the latest build to staging
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build_push_image:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2      
+       
+      - name: github runner options
+        run: echo ${{ github.run_id }}
+        
+      - name: github runner options
+        run: echo ${{ github.run_id }} && $GITHUB_WORKSPACE && $GITHUB_ACTION_REPOSITORY
+        
+      - name: Check Git Variable
+        run: pwd && ls -R $GITHUB_WORKSPACE && ls -R $GITHUB_ACTION_REPOSITORY
+        
