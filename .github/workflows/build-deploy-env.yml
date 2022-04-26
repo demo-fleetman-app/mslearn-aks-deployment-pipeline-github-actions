@@ -34,24 +34,19 @@ jobs:
     runs-on: ubuntu-20.04
     environment: 'stage'
     needs: build_push_image
+    steps:
+      - name: Appoval status
+        run: |
+          echo "Deployement to DEV env is Approved"
           
   deployDEV:
     runs-on: ubuntu-20.04
     environment: 'stage'
-    needs: approvalDev
+    needs: approvalDev  
+   
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Get AKS Credentials
-        uses: Azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          # Resource Group Name
-          resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
-          # AKS Cluster Name
-          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
-
       - name: Kubectl tool installer
         uses: Azure/setup-kubectl@v2.1
         with:
@@ -59,7 +54,6 @@ jobs:
          
       - name: Update deployment file
         run: |
-          echo "printng: ${{ env.ENV }} "
           cd kubernetes
           sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
           sed -i 's|ENV|environment dev|' index.html
@@ -78,6 +72,11 @@ jobs:
     runs-on: ubuntu-20.04
     environment: 'qa'
     needs: deployDEV
+    
+    steps:
+      - name: Appoval status
+        run: |
+          echo "Deployement to QA env is Approved"
   
   deployQA:
     runs-on: ubuntu-20.04
