@@ -30,10 +30,15 @@ jobs:
           repository: contoso-website
           tags: ${{ github.run_id }}
           
-  deployDEV:
+  approvalDev:
     runs-on: ubuntu-20.04
     environment: 'stage'
     needs: build_push_image
+          
+  deployDEV:
+    runs-on: ubuntu-20.04
+    environment: 'stage'
+    needs: approvalDev
 
     steps:
       - uses: actions/checkout@v2
@@ -69,10 +74,15 @@ jobs:
           kubectl create configmap staticfile  --from-file index.html -n stage
           kubectl apply -f . -n stage
 
-  deployQA:
+  approvalQA:
     runs-on: ubuntu-20.04
     environment: 'qa'
     needs: deployDEV
+  
+  deployQA:
+    runs-on: ubuntu-20.04
+    environment: 'qa'
+    needs: approvalQA
 
     steps:
       - uses: actions/checkout@v2
