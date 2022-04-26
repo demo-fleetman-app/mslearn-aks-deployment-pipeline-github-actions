@@ -2,7 +2,7 @@ name: Build and push the latest build to staging
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ Main ]
 
 jobs:
   build_push_image:
