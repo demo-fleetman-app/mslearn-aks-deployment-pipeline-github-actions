@@ -4,6 +4,7 @@ RUN git clone https://github.com/MicrosoftDocs/mslearn-aks-deployment-pipeline-g
 WORKDIR /contoso-website/src
 RUN git submodule update --init themes/introduction
 RUN hugo && mv public/* /usr/share/nginx/html
-RUN sed -i 's/Contoso/Contra/g' /usr/share/nginx/html/index.html
-RUN sed -i '/About/d' /usr/share/nginx/html/index.html
+RUN sed -i 's/We are Contoso/We are ENV:VALUE Contoso/g' /usr/share/nginx/html/index.html
+#RUN sed -i 's/Contoso/Contra/g' /usr/share/nginx/html/index.html
+#RUN sed -i '/About/d' /usr/share/nginx/html/index.html
 EXPOSE 80

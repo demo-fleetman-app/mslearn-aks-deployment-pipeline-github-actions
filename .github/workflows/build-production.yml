@@ -53,6 +53,11 @@ jobs:
         uses: Azure/setup-kubectl@v2.1
         with:
          version: v1.22.2 # default is latest
+
+      - name: Update deployment file
+        run: |
+          cd kubernetes
+          sed -i 's|<IMAGE>|'${{ steps.fetch_version.outputs.TAG }}'|' deployment.yaml
          
       - name: application deployment Commands 
         run: |          

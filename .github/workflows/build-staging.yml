@@ -49,15 +49,8 @@ jobs:
          
       - name: Update deployment file
         run: |
-         # sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
-          ls -R kubernetes
-          pwd
-          ls -lrt
           cd kubernetes
-          cat deployment.yaml | grep IMAGE
           sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
-          sed -i 's|<IMAGE>|ABCD|' deployment.yaml
-          cat deployment.yaml
         
       - name: application deployment Commands 
         run: |
