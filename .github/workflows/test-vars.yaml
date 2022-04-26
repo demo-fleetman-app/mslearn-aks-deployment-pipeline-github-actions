@@ -20,3 +20,12 @@ jobs:
       - name: Check Git Variable
         run: pwd && ls -R $GITHUB_WORKSPACE && ls -R $GITHUB_ACTION_REPOSITORY
         
+      - name: updating yaml
+        run: |
+            ls -R kubernetes
+            sed -i 's|<IMAGE>|docker_fake_repo/tutorial-api:'${TAG}'|' kubernetes/deployment.yml
+            sed -i 's|<IMAGE>|ABCD|' kubernetes/deployment.yml
+            cat kubernetes/deployment.yml
+        
+      
+        
