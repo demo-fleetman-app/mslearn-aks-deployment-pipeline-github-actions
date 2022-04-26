@@ -24,3 +24,11 @@ spec:
           ports:
             - containerPort: 80
               name: http
+          volumeMounts:
+          - mountPath: /usr/share/nginx/html/index.html
+            name: staticfile
+            subPath: index.html
+      volumes:
+      - name: staticfile
+        configMap:
+          name: staticfile

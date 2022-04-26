@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: staticfile
+  namespace: stage
+data:
+  index.html
