@@ -14,17 +14,20 @@ jobs:
       - name: Generate Tag #using SHA of the commit that triggered workflow
         run: IMAGE_TAG=$((echo $GITHUB_SHA | head -c7))
       
-      - name: echo tag value
+      - name: echo IMAGE_TAG value
         run: IMAGE_TAG=$((echo $GITHUB_SHA | head -c7))
+        
+      - name: github runner options
+        run: echo ${{ github.run_id }}
 
       - name: Build and push staging image
-        uses: docker/build-push-action@v1.1.1
+        uses: docker/build-push-action@v1.1.1        
         with:
           username: ${{ secrets.ACR_LOGIN }}
           password: ${{ secrets.ACR_PASSWORD }}
           registry: ${{ secrets.ACR_NAME }}
           repository: contoso-website
-          tags: ${{ IMAGE_TAG }}
+          tags: ${{ github.run_id }}
           
   deploy:
     runs-on: ubuntu-20.04
@@ -47,7 +50,7 @@ jobs:
         with:
          version: v1.22.2 # default is latest
       - name: Update deployment file
-        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/deployment.yml
+        run: TAG=$(echo $${{ github.run_id }}) && sed -i 's|<IMAGE>|'${TAG}'|' $GITHUB_WORKSPACE/kubernetes/deployment.yml
         
       - name: application deployment Commands 
         run: |
