@@ -12,7 +12,7 @@ spec:
         app: contoso-website
     spec:
       containers:
-        - image: fleetmanregistry10212.azurecr.io/contoso-website:latest
+        - image: fleetmanregistry10212.azurecr.io/contoso-website:<IMAGE>
           name: contoso-website
           resources:
             requests:
