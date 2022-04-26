@@ -25,10 +25,11 @@ jobs:
             ls -R kubernetes
             pwd
             ls -lrt
-            cat ./kubernetes/deployment.yml | grep IMAGE
-            sed -i 's|<IMAGE>|'${{ github.run_id }}'|' ./kubernetes/deployment.yml
-            sed -i 's|<IMAGE>|ABCD|' ./kubernetes/deployment.yml
-            cat ./kubernetes/deployment.yml
+            cd kubernetes
+            cat ./kubernetes/deployment.yaml | grep IMAGE
+            sed -i 's|<IMAGE>|'${{ github.run_id }}'|' ./kubernetes/deployment.yaml
+            sed -i 's|<IMAGE>|ABCD|' ./kubernetes/deployment.yaml
+            cat ./kubernetes/deployment.yaml
         
       
         
