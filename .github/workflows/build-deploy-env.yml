@@ -2,7 +2,7 @@ name: Build and push multiple env by tags
 
 on:
   push:
-    branches: [ Main ]
+    branches: [ main ]
 
 jobs:
   build_push_image:
@@ -63,6 +63,7 @@ jobs:
           kubectl get ns
           echo "deploying to aks"
           cd ./kubernetes/
+          kubectl create configmap staticfile  --from-file index.html -n stage
           kubectl apply -f . -n stage
 
   deployQA:
@@ -96,4 +97,5 @@ jobs:
           kubectl get ns
           echo "deploying to aks"
           cd ./kubernetes/
+          kubectl create configmap staticfile  --from-file index.html -n qa
           kubectl apply -f . -n qa
