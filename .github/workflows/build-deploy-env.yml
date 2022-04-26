@@ -1,8 +1,8 @@
-name: Build and push the latest build to staging
+name: Build and push multiple env by tags
 
 on:
   push:
-    branches: [ Main ]
+    branches: [ main ]
 
 jobs:
   build_push_image:
