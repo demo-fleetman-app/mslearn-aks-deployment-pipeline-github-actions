@@ -30,7 +30,7 @@ jobs:
           repository: contoso-website
           tags: ${{ github.run_id }}
           
-  deploy:
+  deployDEV:
     runs-on: ubuntu-20.04
     needs: build_push_image
 
@@ -63,3 +63,35 @@ jobs:
           echo "deploying to aks"
           cd ./kubernetes/
           kubectl apply -f . -n stage
+
+  deployQA:
+    runs-on: ubuntu-20.04
+    needs: deployDEV
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get AKS Credentials
+        uses: Azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+
+      - name: Kubectl tool installer
+        uses: Azure/setup-kubectl@v2.1
+        with:
+         version: v1.22.2 # default is latest
+         
+      - name: Update deployment file
+        run: |
+          cd kubernetes
+          sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
+        
+      - name: application deployment Commands 
+        run: |
+          kubectl get namespace | grep -q "^qa " || kubectl create namespace qa
+          kubectl get ns
+          echo "deploying to aks"
+          cd ./kubernetes/
+          kubectl apply -f . -n qa
