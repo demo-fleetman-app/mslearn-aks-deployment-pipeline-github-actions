@@ -55,7 +55,7 @@ jobs:
         run: |
           cd kubernetes
           sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
-          sed -i 's|ENV|'environment stage'|' configmap.yaml
+          sed -i 's|ENV|environment stage|' configmap.yaml
         
       - name: application deployment Commands 
         run: |
