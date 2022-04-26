@@ -53,6 +53,7 @@ jobs:
          
       - name: Update deployment file
         run: |
+          echo "printng: ${{ env.ENV }} "
           cd kubernetes
           sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
           sed -i 's|ENV|environment dev|' index.html
@@ -87,9 +88,6 @@ jobs:
          
       - name: Update deployment file     
         run: |
-          app-name: ${{ env.ENV }}
-          echo ${{ app-name }}
-          echo ${{ env.ENV }}
           cd kubernetes
           sed -i 's|<IMAGE>|'${{ github.run_id }}'|' deployment.yaml
           sed -i 's|ENV|environment qa|' index.html
