@@ -2,7 +2,7 @@ name: Build and push multiple env by tags
 
 on:
   push:
-    branches: [ main ]
+    branches: [ Main ]
 
 jobs:
 
@@ -14,12 +14,12 @@ jobs:
 #       - name: yaml-lint
 #         uses: ibiqlik/action-yamllint@v3                 
             
-      - name: dockerlint
-        uses: luke142367/Docker-Lint-Action@v1.0.0
-        with:
-          target: Dockerfile
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+#       - name: dockerlint
+#         uses: luke142367/Docker-Lint-Action@v1.0.0
+#         with:
+#           target: Dockerfile
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.TOKEN }}
           
           
   build_push_image:
