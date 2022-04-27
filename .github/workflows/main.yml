@@ -74,7 +74,8 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           resource-group: ${{ secrets.RESOURCE_GROUP_NAME }}
-          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}   
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}            
+  
           
       - name: Update deployment file
         run: |
