@@ -5,15 +5,37 @@ on:
     branches: [ main ]
 
 jobs:
+
+  precheck-build-validation:
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: yamllint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: kubernetes/*.yaml
+          config_file: .yamllint.yml         
+            
+      - name: dockerlint
+        uses: luke142367/Docker-Lint-Action@v1.0.0
+        with:
+          target: Dockerfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+          
   build_push_image:
     runs-on: ubuntu-20.04
+    environment: 'stage'
+    needs: precheck-build-validation
 
     steps:
       - uses: actions/checkout@v2
       
 #       - name: Generate Tag values #using SHA of the commit that triggered workflow
-#         run: IMAGE_TAG=$((echo $GITHUB_SHA | head -c7))    
-       
+#         run: IMAGE_TAG=$((echo $GITHUB_SHA | head -c7))         
+             
       - name: github runner options
         run: echo ${{ github.run_id }}
 
